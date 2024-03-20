@@ -183,6 +183,19 @@ public class ChartStyle {
     }
 }
 
+public class ChartDataKeys: ObservableObject, Identifiable {
+    @Published var keysForValues: [(String, String)]
+    var valuesGiven: Bool = false
+    var ID = UUID()
+    
+    public init<N: LosslessStringConvertible>(points:[N]) {
+        self.keysForValues = points.map{("", String($0))}
+    }
+    public func onlyPointsAsString() -> [String] {
+        return self.keysForValues.map{ ($0.1) }
+    }
+}
+
 public class ChartData: ObservableObject, Identifiable {
     @Published var points: [(String,Double)]
     var valuesGiven: Bool = false
@@ -210,6 +223,9 @@ public class ChartData: ObservableObject, Identifiable {
     
     public func onlyPoints() -> [Double] {
         return self.points.map{ $0.1 }
+    }
+    public func onlyPointsAsString() -> [String] {
+        return self.points.map{ String($0.0) }
     }
 }
 
